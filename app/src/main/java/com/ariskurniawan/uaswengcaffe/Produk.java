@@ -6,23 +6,28 @@ public class Produk {
     private String deskripsi;
     private String kategori;
     private double harga;
-    private boolean tersediaCabangUtama;
     private boolean promoDiskon;
     private boolean takeawayTersedia;
+    private String foto; // URI atau path gambar
     private String tanggal;
 
     // Constructor
     public Produk(int id, String nama, String deskripsi, String kategori, double harga,
-                  boolean tersediaCabangUtama, boolean promoDiskon, boolean takeawayTersedia, String tanggal) {
+                  boolean promoDiskon, boolean takeawayTersedia, String foto, String tanggal) {
         this.id = id;
-        this.nama = nama;
+        setNama(nama);
         this.deskripsi = deskripsi;
         this.kategori = kategori;
-        this.harga = harga;
-        this.tersediaCabangUtama = tersediaCabangUtama;
+        setHarga(harga);
         this.promoDiskon = promoDiskon;
         this.takeawayTersedia = takeawayTersedia;
+        this.foto = foto;
         this.tanggal = tanggal;
+    }
+
+    // Default Constructor
+    public Produk() {
+        // Default konstruktor
     }
 
     // Getters and Setters
@@ -39,6 +44,9 @@ public class Produk {
     }
 
     public void setNama(String nama) {
+        if (nama == null || nama.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nama tidak boleh kosong");
+        }
         this.nama = nama;
     }
 
@@ -63,15 +71,10 @@ public class Produk {
     }
 
     public void setHarga(double harga) {
+        if (harga < 0) {
+            throw new IllegalArgumentException("Harga tidak boleh negatif");
+        }
         this.harga = harga;
-    }
-
-    public boolean isTersediaCabangUtama() {
-        return tersediaCabangUtama;
-    }
-
-    public void setTersediaCabangUtama(boolean tersediaCabangUtama) {
-        this.tersediaCabangUtama = tersediaCabangUtama;
     }
 
     public boolean isPromoDiskon() {
@@ -90,11 +93,43 @@ public class Produk {
         this.takeawayTersedia = takeawayTersedia;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public String getTanggal() {
         return tanggal;
     }
 
     public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
+    }
+
+    // Metode Utilitas
+    public boolean isMakanan() {
+        return "Makanan".equalsIgnoreCase(kategori);
+    }
+
+    public boolean isMinuman() {
+        return "Minuman".equalsIgnoreCase(kategori);
+    }
+
+    @Override
+    public String toString() {
+        return "Produk{" +
+                "id=" + id +
+                ", nama='" + nama + '\'' +
+                ", deskripsi='" + deskripsi + '\'' +
+                ", kategori='" + kategori + '\'' +
+                ", harga=" + harga +
+                ", promoDiskon=" + promoDiskon +
+                ", takeawayTersedia=" + takeawayTersedia +
+                ", foto='" + foto + '\'' +
+                ", tanggal='" + tanggal + '\'' +
+                '}';
     }
 }
